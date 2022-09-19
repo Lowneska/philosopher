@@ -4,6 +4,7 @@ SRC =	srcs/main.c \
 		srcs/display.c\
 		srcs/philosophers.c\
 		srcs/routine.c\
+		srcs/waiter.c\
 
 SRC_B =	
 
@@ -15,6 +16,7 @@ OBJS =	objs/main.o \
 		objs/display.o\
 		objs/philosophers.o\
 		objs/routine.o\
+		objs/waiter.o\
 	
 
 NAME = philo

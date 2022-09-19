@@ -26,12 +26,10 @@ int init_philosophers(t_stat *state)
         if (pthread_create(&(state->philos[i]->thread), NULL, &routine, state->philos[i]))
 		    return (0); //supprimer les philos alloués et les threads crees
     }
-    life_checker(state);
-
+    end_of_simulation(state);
 	i = -1;
 	while (++i < state->philo_num)
 		pthread_join(state->philos[i]->thread, NULL);
-    //end_of_simulation(state);
     return (1);
 }
 
