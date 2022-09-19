@@ -28,11 +28,11 @@ static int init_philomutex(t_stat *stat)
     i = 0;
     while (i < stat->philo_num)
     {
-        if (pthread_mutex_init(&(stat->philos[i].mutex), NULL) != 0)
+        if (pthread_mutex_init(&(stat->philos[i]->mutex), NULL) != 0)
         {
             while (i > 0)
             {
-            pthread_mutex_destroy(&(stat->philos[i - 1].mutex));
+            pthread_mutex_destroy(&(stat->philos[i - 1]->mutex));
             i--;
             }
             return (0);
@@ -65,10 +65,10 @@ void    destroy_mutex(t_stat *stat)
     free(stat->forks);
     while (i < stat->philo_num)
     {
-        pthread_mutex_destroy(&(stat->philos[i].mutex));
+        pthread_mutex_destroy(&(stat->philos[i]->mutex));
         i++;
     }
-    free(stat->philos);
+    //free(stat->philos);
     free(stat);
 }
 

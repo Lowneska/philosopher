@@ -31,7 +31,7 @@ typedef struct			s_stat
 	int					end;
 	pthread_mutex_t		end_protec;
 	pthread_mutex_t		display;
-	t_philosopher		*philos;
+	t_philosopher		**philos;
 	pthread_mutex_t		*forks;
 }						t_stat;
 
@@ -53,4 +53,9 @@ uint64_t	get_time(void);
 void		print_msg(int type, t_philosopher *philo);
 void		*routine(void	*philoo);
 
+
+void	life_checker(t_stat	*state);
+void end_of_simulation(t_stat *state);
+
+int init_philosophers(t_stat *state);
 #endif
