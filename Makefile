@@ -6,10 +6,6 @@ SRC =	srcs/main.c \
 		srcs/routine.c\
 		srcs/waiter.c\
 
-SRC_B =	
-
-OBJS_B =
-
 OBJS =	objs/main.o \
 		objs/parsing.o\
 		objs/initialisation.o\
@@ -17,11 +13,8 @@ OBJS =	objs/main.o \
 		objs/philosophers.o\
 		objs/routine.o\
 		objs/waiter.o\
-	
 
 NAME = philo
-
-NAME_BONUS = philo_bonus
 
 CC = gcc
 
@@ -39,23 +32,17 @@ objs/%.o : srcs/%.c
 	mkdir -p ./objs
 	$(CC) $(CFLAGS) -I${INC} -c $< -o $@
 
-objs_bonus/%.o : src_bonus/%.c
-	mkdir -p ./objs_bonus
-	$(CC) $(CFLAGS) -I${INC} -c $< -o $@
-
 %.o : %.c
 	$(CC) $(CFLAGS) -I${INC} -c $< -o $@
 
 ${NAME} : ${OBJS}
-	$(CC) $(CFLAGS) ${OBJS} -o ${NAME}
+	$(CC) -pthread $(CFLAGS) ${OBJS} -o ${NAME}
 
-${NAME_BONUS} : ${OBJS_B}
-	$(CC) $(CFLAGS) ${OBJS_B}-o ${NAME_BONUS}
 clean:
-		$(RM) ${OBJS} $(OBJ_B)
+		$(RM) ${OBJS}
 		$(RM) ./objs
 
 fclean: clean
-		$(RM) $(NAME) $(NAME_BONUS)
+		$(RM) $(NAME)
 
 re:	fclean all

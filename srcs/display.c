@@ -1,32 +1,44 @@
-#include "../include/philosopher.h"
-int ft_size(int n)
-{
-    int i;
-    int tmp;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: skhali <skhali@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/20 13:52:10 by skhali            #+#    #+#             */
+/*   Updated: 2022/09/20 13:58:00 by skhali           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-    i = 0;
-    tmp = n;
-    if (n == 0)
-        return (1);
-    if (tmp < 0)
-        i++;
-    while(tmp)
-    {
-        tmp = tmp/10;
-        i++;
-    }
-    return (i);
+#include "../include/philosopher.h"
+
+int	ft_size(int n)
+{
+	int	i;
+	int	tmp;
+
+	i = 0;
+	tmp = n;
+	if (n == 0)
+		return (1);
+	if (tmp < 0)
+		i++;
+	while (tmp)
+	{
+		tmp = tmp / 10;
+		i++;
+	}
+	return (i);
 }
 
 void	*ft_memcpy(void *dst, const void *src, size_t size)
 {
-	char		*d; //pour deferencer le pointeur
-	const char	*s;
-	unsigned int i;
+	char			*d;
+	const char		*s;
+	unsigned int	i;
 
 	d = dst;
 	s = src;
-
 	i = 0;
 	while (i < size)
 	{
@@ -36,36 +48,38 @@ void	*ft_memcpy(void *dst, const void *src, size_t size)
 	return (dst);
 }
 
-char *ft_itoa(int n)
+char	*ft_itoa(int n)
 {
-    int tmp;
-    char    *c;
-    int size;
-    tmp = n;
-    size = ft_size(n);
-    
-    if (!(c = (char *)malloc(sizeof(char) * (size + 1))))
-		    return (NULL);
-    if (tmp == -2147483648)
-		return (ft_memcpy(c, "-2147483648", size+1));
-    if (n == 0)
-        return (ft_memcpy(c, "0", 2));
-    if (n < 0)
-    {
-        c[0] = '-';
+	int		tmp;
+	char	*c;
+	int		size;
+
+	tmp = n;
+	size = ft_size(n);
+	c = (char *)malloc(sizeof(char) * (size + 1));
+	if (!c)
+		return (NULL);
+	if (tmp == -2147483648)
+		return (ft_memcpy(c, "-2147483648", size + 1));
+	if (n == 0)
+		return (ft_memcpy(c, "0", 2));
+	if (n < 0)
+	{
+		c[0] = '-';
 		tmp *= -1;
-    }
-    c[size--] = '\0';
-    while (tmp)
-    {
-        c[size--] = '0' + (tmp % 10);
-        tmp = tmp/10;
-    }
-    return (c);
+	}
+	c[size--] = '\0';
+	while (tmp)
+	{
+		c[size--] = '0' + (tmp % 10);
+		tmp = tmp / 10;
+	}
+	return (c);
 }
+
 size_t	ft_strlen(const char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -73,17 +87,9 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-uint64_t	get_time(void)
-{
-	static struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
-}
-
 void	print_msg(int type, t_philosopher *philo)
 {
-	char *time;
+	char	*time;
 
 	pthread_mutex_lock(&(philo->state->display));
 	time = ft_itoa((int)(get_time() - philo->state->start));
