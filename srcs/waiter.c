@@ -45,6 +45,5 @@ void end_of_simulation(t_stat *state)
             }
 			pthread_mutex_unlock(&(state->philos[i]->mutex));
 		}
-        //usleep(5000);
     }
 }

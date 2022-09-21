@@ -6,7 +6,7 @@
 /*   By: skhali <skhali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:33:47 by skhali            #+#    #+#             */
-/*   Updated: 2022/09/20 13:51:19 by skhali           ###   ########.fr       */
+/*   Updated: 2022/09/21 07:08:45 by skhali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,18 @@ int	init_philosophers(t_stat *state)
 	{
 		init_philo((state->philos[i]), i, state);
 		if (pthread_mutex_init(&(state->philos[i]->mutex), NULL))
-			return (0);
+			return (destroy_mutex_s(state, i), destroy_mutex(state),
+				free_philos(state, state->philo_num), 0);
 		if (pthread_create(&(state->philos[i]->thread), NULL,
 				&routine, state->philos[i]))
-			return (0);
+			return (destroy_mutex_s(state, state->philo_num), destroy_mutex(state),
+				free_philos(state, state->philo_num), 0);
 	}
 	end_of_simulation(state);
 	i = -1;
 	while (++i < state->philo_num)
 		pthread_join(state->philos[i]->thread, NULL);
+	destroy_mutex(state);
+	free_philos(state, state->philo_num);
 	return (1);
-}
-
-void	free_philosophers(t_stat *state)
-{
-	int	i;
-
-	i = -1;
-	while (++i < state->philo_num)
-	{
-		pthread_mutex_destroy(&state->forks[i]);
-		pthread_mutex_destroy(&state->philos[i]->mutex);
-	}
-	pthread_mutex_destroy(&state->end_protec);
-	pthread_mutex_destroy(&state->display);
 }

@@ -6,7 +6,7 @@
 /*   By: skhali <skhali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:02:39 by skhali            #+#    #+#             */
-/*   Updated: 2022/09/20 14:04:09 by skhali           ###   ########.fr       */
+/*   Updated: 2022/09/21 07:10:13 by skhali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,27 @@ static int	init_philomutex(t_stat *stat)
 	return (1);
 }
 
-void	destroy_forks(t_stat *stat)
+void	destroy_mutex_s(t_stat *stat, int i)
 {
-	int	i;
+	int	r;
 
-	i = 0;
-	while (i < stat->philo_num)
+	r = i - 1;
+	while (r >= 0)
 	{
-		pthread_mutex_destroy(&(stat->forks[i]));
-		i++;
+		pthread_mutex_destroy(&(stat->philos[r]->mutex));
+		r--;
+	}
+}
+
+void	destroy_forks(t_stat *stat, int i)
+{
+	int	r;
+
+	r = i - 1;
+	while (r >= 0)
+	{
+		pthread_mutex_destroy(&(stat->forks[r]));
+		r--;
 	}
 }
 
@@ -73,14 +85,13 @@ void	destroy_mutex(t_stat *stat)
 	i = 0;
 	pthread_mutex_destroy(&(stat->display));
 	pthread_mutex_destroy(&(stat->end_protec));
-	destroy_forks(stat);
+	destroy_forks(stat, stat->philo_num);
 	free(stat->forks);
 	while (i < stat->philo_num)
 	{
 		pthread_mutex_destroy(&(stat->philos[i]->mutex));
 		i++;
 	}
-	free(stat);
 }
 
 int	init_mutex(t_stat *stat)
@@ -99,7 +110,7 @@ int	init_mutex(t_stat *stat)
 	{
 		pthread_mutex_destroy(&(stat->display));
 		pthread_mutex_destroy(&(stat->end_protec));
-		destroy_forks(stat);
+		destroy_forks(stat, stat->philo_num);
 		return (0);
 	}
 	return (1);

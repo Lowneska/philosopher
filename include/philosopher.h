@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <sys/time.h>
 # include <stdint.h>
+#include <limits.h>
 
 typedef struct			s_stat t_stat;
 
@@ -39,10 +40,12 @@ typedef struct			s_stat
 
 /* Parsing */
 int    		parsing(int argc, char **argv, t_stat *stat);
+void		free_philos(t_stat *state, int i);
 
 /* Initialisation et destruction des mutex*/
 int			init_mutex(t_stat *stat);
 void   	 	destroy_mutex(t_stat *stat);
+void		destroy_mutex_s(t_stat *stat, int i);
 
 /* Initialisation des philosophes et début de la simulation */
 int 		init_philosophers(t_stat *state);
@@ -55,7 +58,6 @@ void		*routine(void	*philoo);
 
 
 void	life_checker(t_stat	*state);
-void end_of_simulation(t_stat *state);
-
-int init_philosophers(t_stat *state);
+void	end_of_simulation(t_stat *state);
+int		init_philosophers(t_stat *state);
 #endif
