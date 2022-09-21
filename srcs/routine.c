@@ -6,7 +6,7 @@
 /*   By: skhali <skhali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:07:13 by skhali            #+#    #+#             */
-/*   Updated: 2022/09/20 14:08:29 by skhali           ###   ########.fr       */
+/*   Updated: 2022/09/20 17:07:37 by skhali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	take_forks(t_philosopher *philo)
 		return (0);
 	}
 	pthread_mutex_lock(&(philo->state->forks[philo->num]));
+	if (philo->state->end)
+	{
+		pthread_mutex_unlock(&(philo->state->forks[philo->num]));
+		return (0);
+	}
 	print_msg('f', philo);
 	if (philo->state->end)
 	{
@@ -76,7 +81,9 @@ void	*routine(void	*param)
 
 	philo = (t_philosopher *) param;
 	if (!philo->even)
-		usleep(philo->state->time_to_eat * 1000);
+	{
+		usleep(philo->state->time_to_eat * 200);
+	}
 	while (!philo->state->end)
 	{
 		if (!take_forks(philo))

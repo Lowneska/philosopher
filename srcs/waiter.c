@@ -38,12 +38,13 @@ void end_of_simulation(t_stat *state)
             pthread_mutex_lock(&(state->philos[i]->mutex));
             if ((int)(get_time() - state->philos[i]->last_meal) > state->time_to_die)
 			{
-                print_msg('d', state->philos[i]);
                 end_of_sim_bis(state->philos[i]);
+				usleep(5000);
+				print_msg('d', state->philos[i]);
                 return ;
             }
 			pthread_mutex_unlock(&(state->philos[i]->mutex));
 		}
-        usleep(5000);
+        //usleep(5000);
     }
 }
