@@ -6,7 +6,7 @@
 /*   By: skhali <skhali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:04:42 by skhali            #+#    #+#             */
-/*   Updated: 2022/09/21 06:47:59 by skhali           ###   ########.fr       */
+/*   Updated: 2022/09/22 14:58:42 by skhali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int	check_args(int argc, char **argv)
 	if (ft_atoi(argv[4]) < 0)
 		return (write( 1,"Incorrect time to sleep.\n", 25), 0);
 	if (argc == 6)
-		if (!is_integer(argv[5]) || (ft_atoi(argv[5]) < 0))
+		if (!is_integer(argv[5]) || (ft_atoi(argv[5]) <= 0))
 			return (write( 1,"Wrong n/t of time each philo must eat.\n", 39), 0);
 	return (1);
 }

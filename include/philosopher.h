@@ -60,4 +60,6 @@ void		*routine(void	*philoo);
 void	life_checker(t_stat	*state);
 void	end_of_simulation(t_stat *state);
 int		init_philosophers(t_stat *state);
+
+int	check_death(t_philosopher *philo);
 #endif

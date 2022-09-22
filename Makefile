@@ -22,7 +22,7 @@ INC = include/
 
 RM = rm -rf
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra  -pthread -fsanitize=thread
 
 all : ${NAME}
 
@@ -36,7 +36,7 @@ objs/%.o : srcs/%.c
 	$(CC) $(CFLAGS) -I${INC} -c $< -o $@
 
 ${NAME} : ${OBJS}
-	$(CC) -pthread $(CFLAGS) ${OBJS} -o ${NAME}
+	$(CC) $(CFLAGS) ${OBJS} -o ${NAME}
 
 clean:
 		$(RM) ${OBJS}
