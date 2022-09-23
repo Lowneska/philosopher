@@ -6,7 +6,7 @@
 /*   By: skhali <skhali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:07:13 by skhali            #+#    #+#             */
-/*   Updated: 2022/09/22 14:52:47 by skhali           ###   ########.fr       */
+/*   Updated: 2022/09/23 17:09:32 by skhali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@ int	take_forks(t_philosopher *philo, int id1, int id2)
 {
 	if (philo->num == ((philo->num + 1)
 			% philo->state->philo_num))
-	{
-		print_msg('f', philo);
-		usleep(philo->state->time_to_die * 1000);
-		return (0);
-	}
+		return (print_msg('f', philo),
+			usleep(philo->state->time_to_die * 1000), 0);
 	pthread_mutex_lock(&(philo->state->forks[id1]));
 	if (check_death(philo))
 	{
@@ -73,27 +70,13 @@ void	sleeper(t_philosopher *philo)
 
 void	ft_swap(int *a, int *b)
 {
-	int temp;
+	int	temp;
 
 	temp = *a;
 	*a = *b;
 	*b = temp;
 }
-void	choose_forks(t_philosopher *philo, int *fork1, int *fork2)
-{
-	int	tmp_fork;
 
-	*fork1 = philo->num;
-	*fork2 = philo->num - 1;
-	if (*fork2 < 0)
-		*fork2 = philo->state->philo_num - 1;
-	if (*fork1 < *fork2)
-	{
-		tmp_fork = *fork1;
-		*fork1 = *fork2;
-		*fork2 = tmp_fork;
-	}
-}
 void	*routine(void	*param)
 {
 	t_philosopher	*philo;
@@ -103,10 +86,9 @@ void	*routine(void	*param)
 	philo = (t_philosopher *) param;
 	id1 = philo->num;
 	id2 = (philo->num + 1)
-			% philo->state->philo_num;
-	if ( id1 == 0)
+		% philo->state->philo_num;
+	if (id1 == 0)
 		ft_swap(&id1, &id2);
-	//choose_forks(philo, &id1, &id2);
 	if (!philo->even)
 		usleep(philo->state->time_to_eat * 200);
 	while (!check_death(philo))

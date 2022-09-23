@@ -22,7 +22,7 @@ INC = include/
 
 RM = rm -rf
 
-CFLAGS = -Wall -Werror -Wextra  -pthread -fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra  -pthread #-fsanitize=thread
 
 all : ${NAME}
 

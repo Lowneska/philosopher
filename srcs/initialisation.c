@@ -6,7 +6,7 @@
 /*   By: skhali <skhali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:02:39 by skhali            #+#    #+#             */
-/*   Updated: 2022/09/21 07:10:13 by skhali           ###   ########.fr       */
+/*   Updated: 2022/09/23 16:53:36 by skhali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,6 @@ void	destroy_mutex_s(t_stat *stat, int i)
 	while (r >= 0)
 	{
 		pthread_mutex_destroy(&(stat->philos[r]->mutex));
-		r--;
-	}
-}
-
-void	destroy_forks(t_stat *stat, int i)
-{
-	int	r;
-
-	r = i - 1;
-	while (r >= 0)
-	{
-		pthread_mutex_destroy(&(stat->forks[r]));
 		r--;
 	}
 }

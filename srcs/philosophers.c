@@ -6,7 +6,7 @@
 /*   By: skhali <skhali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:33:47 by skhali            #+#    #+#             */
-/*   Updated: 2022/09/21 07:08:45 by skhali           ###   ########.fr       */
+/*   Updated: 2022/09/23 16:57:32 by skhali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	init_philosophers(t_stat *state)
 				free_philos(state, state->philo_num), 0);
 		if (pthread_create(&(state->philos[i]->thread), NULL,
 				&routine, state->philos[i]))
-			return (destroy_mutex_s(state, state->philo_num), destroy_mutex(state),
+			return (destroy_mutex_s(state, state->philo_num),
+				destroy_mutex(state),
 				free_philos(state, state->philo_num), 0);
 	}
 	end_of_simulation(state);

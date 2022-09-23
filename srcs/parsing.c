@@ -6,21 +6,21 @@
 /*   By: skhali <skhali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:04:42 by skhali            #+#    #+#             */
-/*   Updated: 2022/09/22 14:58:42 by skhali           ###   ########.fr       */
+/*   Updated: 2022/09/23 17:19:08 by skhali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher.h"
 
-static int		ft_atoi(const char *str)
+static int	ft_atoi(const char *str)
 {
 	int		sign;
 	int		somme;
-	
+
 	sign = 1;
 	somme = 0;
-	while (*str == '\t' || *str == '\n' || *str == '\f' || *str == '\r' ||
-		*str == ' ' || *str == '\v')
+	while (*str == '\t' || *str == '\n' || *str == '\f' || *str == '\r'
+		|| *str == ' ' || *str == '\v')
 		str++;
 	if (*str == '-')
 	{
@@ -39,7 +39,7 @@ static int		ft_atoi(const char *str)
 
 static long	ft_atol(const char *str)
 {
-	int	signe;
+	int		signe;
 	long	nbr;
 
 	nbr = 0;
@@ -74,40 +74,27 @@ static int	is_integer(char *str)
 static int	check_args(int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
-		return (write( 1,"Wrong number of arguments.\n", 27), 0);
+		return (write(1, "Wrong number of arguments.\n", 27), 0);
 	if (!is_integer(argv[1]) || !is_integer(argv[2]) || !is_integer(argv[3])
 		|| !is_integer(argv[4]))
-		return (write( 1,"Wrong type of arguments or negative number.\n", 44), 0);
+		return (write(1, "Wrong type of arguments or negative number.\n", 44)
+			, 0);
 	if (ft_atoi(argv[1]) <= 0)
-		return (write( 1,"Wrong number of philosophers.\n", 30), 0);
+		return (write(1, "Wrong number of philosophers.\n", 30), 0);
 	if (ft_atoi(argv[2]) < 0)
-		return (write( 1,"Incorrect time to die.\n", 23), 0);
+		return (write(1, "Incorrect time to die.\n", 23), 0);
 	if (ft_atoi(argv[3]) < 0)
-		return (write( 1,"Incorrect time to eat.\n", 23), 0);
+		return (write(1, "Incorrect time to eat.\n", 23), 0);
 	if (ft_atoi(argv[4]) < 0)
-		return (write( 1,"Incorrect time to sleep.\n", 25), 0);
+		return (write(1, "Incorrect time to sleep.\n", 25), 0);
 	if (argc == 6)
 		if (!is_integer(argv[5]) || (ft_atoi(argv[5]) <= 0))
-			return (write( 1,"Wrong n/t of time each philo must eat.\n", 39), 0);
+			return (write(1, "Wrong n/t of time each philo must eat.\n", 39), 0);
 	return (1);
 }
-void	free_philos(t_stat *state, int i)
-{
-	int	r;
 
-	r = i - 1;
-	while ( r >= 0)
-	{
-		free(state->philos[r]);
-		r--;
-	}
-	free(state->philos);
-	free(state);
-}
 int	parsing(int argc, char **argv, t_stat *stat)
 {
-	int	i;
-
 	if (!check_args(argc, argv))
 		return (free(stat), 0);
 	stat->philo_num = ft_atoi(argv[1]);
@@ -119,18 +106,5 @@ int	parsing(int argc, char **argv, t_stat *stat)
 		stat->number_of_time_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
 		stat->number_of_time_each_philosopher_must_eat = -1;
-	stat->philos = malloc(stat->philo_num * sizeof(t_philosopher *));
-	if (!stat->philos)
-		return (free(stat), write( 1,"Malloc error on philos array.\n", 30), 0);
-	i = -1;
-	while (++i < stat->philo_num)
-	{
-		stat->philos[i] = malloc(sizeof(t_philosopher));
-		if (!stat->philos[i])
-			return (free_philos(stat, i), 0);
-	}
-	stat->forks = malloc(stat->philo_num * sizeof(pthread_mutex_t));
-	if (!stat->philos)
-		return (free_philos(stat, i), write( 1,"Malloc error on forks.\n", 23), 0);
 	return (1);
 }
